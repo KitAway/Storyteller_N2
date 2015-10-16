@@ -13,7 +13,7 @@ __description__='''
 #========================================#
 import http.server
 import json
-from Server.serverAPI.netOp import httpPOST,httpGET
+from commonAPI.netOp import httpPOST,httpGET
 import os
 import subprocess
 from Server.serverAPI.serverConst import *
@@ -29,7 +29,7 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         auid=self.headers['id']
-        portBias=int(self.headers['portBias'])
+#        portBias=int(self.headers['portBias'])
         audioname=self.headers['audioname']
         post_data = self.rfile.read(content_length)
     
@@ -55,7 +55,8 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
             self.do_HEAD(406)
             return
     
-        rPort=ENGINE_PORT+ENGINE_PORT_STEP*(portBias%NUMBER_OF_ENGINES)
+#        rPort=ENGINE_PORT+ENGINE_PORT_STEP*(portBias%NUMBER_OF_ENGINES)
+        rPort=ENGINE_PORT
         URL_Server='%s:%s'%(ENGINE_HOST_IP,rPort)
         hrs={'Content-type':'application/json'}
         operating_mode='accurate'
@@ -75,8 +76,9 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
 
 
     def do_GET(self):
-        portBias=int(self.headers['portBias'])
-        rPort=ENGINE_PORT+ENGINE_PORT_STEP*(portBias%NUMBER_OF_ENGINES)
+        #portBias=int(self.headers['portBias'])
+        #rPort=ENGINE_PORT+ENGINE_PORT_STEP*(portBias%NUMBER_OF_ENGINES)
+        rPort=ENGINE_PORT
         URL_Server='%s:%s'%(ENGINE_HOST_IP,rPort)
         response=httpGET(URL_Server,self.path)
         jstr=''
