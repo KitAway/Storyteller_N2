@@ -17,9 +17,8 @@ import os
 import subprocess
 import time
 
-from commonAPI.netOp import httpPOST, httpGET
-
 from Server.serverAPI.serverConst import *
+from commonAPI.netOp import httpPOST, httpGET
 
 
 class httpHandler(http.server.BaseHTTPRequestHandler):

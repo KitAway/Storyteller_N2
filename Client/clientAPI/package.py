@@ -22,7 +22,7 @@ class package():
             for one in tmpList:
                 filepath=os.path.join(path,one)
                 if isValidAudioFiles(filepath):
-                    print(one)
+                    #print(one)
                     self.packetList.append(packet(filepath,language,mode))
         elif isValidAudioFiles(path):
             self.packetList.append(packet(path,language,mode))

@@ -8,11 +8,11 @@ Created on Oct 16, 2015
 SERVER_PORT             =   9999
 SERVER_PORTS            =   9998
 SERVER_HOST             =   'denethor.cdsdom.polito.it'
-NUMBER_OF_ENGINES       =   2
+NUMBER_OF_ENGINES       =   1
 
 ##-------------------------   task parameters  -------------------------------##
 NUM_MULTI_TASKS         =   5
-UPDATE_TIME_SECOND      =   10
+UPDATE_TIME_SECOND      =   1
 QUERYING_TIME           =   10
 DISPLAY_UPDATE_SECOND   =   3
 

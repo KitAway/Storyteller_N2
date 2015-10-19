@@ -34,7 +34,7 @@ class Status():
 
 class packet(Status):
     def __init__(self,filepath,language,mode):
-        super(os.path.basename(filepath))
+        super().__init__(os.path.basename(filepath))
         self.id=uuid.uuid4()
         self.filepath=filepath
         self.language=language
