@@ -19,7 +19,7 @@ import time
 
 from commonAPI.netOp import httpPOST, httpGET
 
-from serverConst import *
+from Server.serverAPI.serverConst import *
 
 
 class httpHandler(http.server.BaseHTTPRequestHandler):
@@ -93,6 +93,8 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
             else:
                 self.do_HEAD(404)
         except AttributeError:
+            self.do_HEAD(404)
+        except TimeoutError:
             self.do_HEAD(404)
 
 

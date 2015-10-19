@@ -23,7 +23,7 @@ class Engine:
         self.js=js
         self.node=node
         self.engine=None
-        self.startEngine()
+        #self.startEngine()
     
     def __del__(self):
         try:
