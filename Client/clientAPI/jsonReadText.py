@@ -5,15 +5,16 @@ __author__="Liang Ma"
 __version__='1.0.1'
 #========================================#
 
-import json
-import sys
-import os
 import copy
+import json
+import os
+import sys
+
+
 #def getFileNumber(fileName):
 #  match=re.match('S-(\d+).',fileName)
 #  num=int(match.group(1))
 #  return str("%03d"%(num))
-
 def readJson(inPath,outPath):
     with open(inPath,'rU') as fid:  
         fstr=fid.read()    

@@ -5,8 +5,9 @@ Created on Oct 16, 2015
 '''
 
 import os
-from Client.clientAPI.packet import packet
+
 from Client.clientAPI.clientConst import RECOG_AUDIO_FORMAT
+from Client.clientAPI.packet import packet
 
 
 def isValidAudioFiles(one):
@@ -21,7 +22,7 @@ class package():
             for one in tmpList:
                 filepath=os.path.join(path,one)
                 if isValidAudioFiles(filepath):
-                    print(one)
+                    #print(one)
                     self.packetList.append(packet(filepath,language,mode))
         elif isValidAudioFiles(path):
             self.packetList.append(packet(path,language,mode))

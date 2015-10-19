@@ -13,11 +13,13 @@ __description__='''
 #========================================#
 import http.server
 import json
-from commonAPI.netOp import httpPOST,httpGET
 import os
 import subprocess
-from Server.serverAPI.serverConst import *
 import time
+
+from Server.serverAPI.serverConst import *
+from commonAPI.netOp import httpPOST, httpGET
+
 
 class httpHandler(http.server.BaseHTTPRequestHandler):
     def do_HEAD(self,content):

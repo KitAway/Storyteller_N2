@@ -5,11 +5,13 @@ Created on Oct 16, 2015
 '''
 
 
-import uuid
 import os
-from Client.clientAPI.clientConst import (NUM_TAB_PRINT,NUM_SPACE_PRINT,
-            TASK_STATUS_INITIALED,TASK_DESCR_NONE)
 import time
+import uuid
+
+from Client.clientAPI.clientConst import (NUM_TAB_PRINT, NUM_SPACE_PRINT,
+            TASK_STATUS_INITIALED, TASK_DESCR_NONE)
+
 
 class Status():
     def __init__(self,filename):
@@ -32,7 +34,7 @@ class Status():
 
 class packet(Status):
     def __init__(self,filepath,language,mode):
-        super(os.path.basename(filepath))
+        super().__init__(os.path.basename(filepath))
         self.id=uuid.uuid4()
         self.filepath=filepath
         self.language=language

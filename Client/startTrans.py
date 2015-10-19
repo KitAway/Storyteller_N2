@@ -13,12 +13,15 @@ __usage__='''usage: %s  [-u sec] file_directory
 __description__='''
 '''
 #========================================#
-from Client.clientAPI.Tasks import Tasks
-from Client.clientAPI.clientConst import (SERVER_PORT,SERVER_HOST, UPDATE_TIME_SECOND)
-import sys
 import os
+import sys
+
+from Client.clientAPI.Tasks import Tasks
+from Client.clientAPI.clientConst import (SERVER_PORT, SERVER_HOST, UPDATE_TIME_SECOND)
+
 
 def main():
+    print("welcom to storyteller.")
     argv=sys.argv[1:]
     if ('-h' in argv) or ('--help' in argv):
         print(__usage__)
@@ -53,6 +56,7 @@ def main():
     myTask= Tasks(server_url,filepath,uTime)
     myTask.startTrans()
     myTask.display()
+    print("finished")
 
 if __name__ == '__main__':
-    pass
+    main()

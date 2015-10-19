@@ -14,30 +14,35 @@ __description__='''
 #! python
 import json
 import os
-from commonAPI.netOp import httpPOST, httpGET
+import subprocess
 import threading
+import time
+import http
+
+from Client.clientAPI.clientConst import *  # @UnusedWildImport
 from Client.clientAPI.htmlFrame import myHTML
 from Client.clientAPI.jsonReadText import readJson
-import time
-from Client.clientAPI.clientConst import *  # @UnusedWildImport
 from Client.clientAPI.package import package
-import subprocess
+from commonAPI.netOp import httpPOST, httpGET
+
 
 class Tasks():
     def __init__(self,server_url,audiopath,updateTime):
         self.package=package(audiopath)
-        self.server_url="%s:%self"%self.server_url
+        self.server_url="%s:%s"%server_url
         self.status=False
         self.updateTime=updateTime
 
     def startTrans(self):
         for one in self.package.packetList:
             uniTrans(one,self.server_url).start()
+            time.sleep(1)
         
     def display(self):
         while True:
             if self.status:
                 break
+            self.myPrint()
             time.sleep(self.updateTime)
     
     def myPrint(self):
@@ -60,7 +65,7 @@ class Tasks():
             if tSta.timeUpdate:
                 tSta.timeLast=Ctime-tSta.startTime
                 self.status=False
-                tSta.display()
+            tSta.display()
 
 
 #    def getStatus(self):
@@ -75,6 +80,7 @@ class Tasks():
 
 class uniTrans(threading.Thread):
     def __init__(self,packet,server_url,daemon=True):
+        super().__init__()
         self.packet=packet
         self.server_url=server_url
         filepath=packet.filepath
@@ -93,17 +99,23 @@ class uniTrans(threading.Thread):
         try:
             response=httpPOST(self.server_url,data,hrs)
             return response.status
-        except:
-            return
+        except http.client.HTTPException:
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_CONNECTION,False)
+        except http.client.NotConnected:
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_CONNECTION,False)
+
         
     def get(self):
         try:
             hrs={}
-            response= httpGET(self.server_url,'/status/%s'%self.id,hrs)
+            response= httpGET(self.server_url,'/status/%s'%self.packet.id,hrs)
             if response.status==200:
                 return response.read().decode('utf-8')
-        except:
-            return
+        except http.client.HTTPException:
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
+        except http.client.NotConnected:
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
+
         
     def creatHtml(self,*,wLong=10):
         with open(self.textPath,'r') as fr:
@@ -120,7 +132,10 @@ class uniTrans(threading.Thread):
             fj.write(myweb.getJs())  
             
     def run(self):
-        status=self.post()
+        try:
+            status=self.post()
+        except TimeoutError:
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_CONNECTION,False)
         if status==200:
             self.packet.set(TASK_STATUS_SUBMIT,TASK_DESCR_NONE)
             while True:
@@ -129,11 +144,13 @@ class uniTrans(threading.Thread):
                     jsonText=self.get()
                     dict=json.loads(jsonText)  # @ReservedAssignment
                 except ValueError:
-                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS)
+                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
+                    return
                 except TypeError:
-                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS)
+                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
+                    return
                 if dict['status']=='TRANSCRIBED':
-                    self.packet.set(TASK_STATUS_FINISHED,TASK_DESCR_GOT)
+                    self.packet.set(TASK_STATUS_FINISHED,TASK_DESCR_GOT,False)
                     try:
                         with open(self.jsonPath,'w+') as fd:
                             fd.write(json.dumps(dict, sort_keys=True,indent=4, separators=(',', ': ')))
@@ -141,15 +158,14 @@ class uniTrans(threading.Thread):
                             self.creatHtml()
                             return
                     except:
-                        self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS)
+                        self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS,False)
                         return
                     else:
-                        self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS)
+                        self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS,False)
                         return
-                    break
                 elif dict['status']=='FAILED':
-                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_GOT)
-                    return False
+                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_GOT,False)
+                    return
                 elif dict['status']=='QUEUED':
                     self.packet.set(TASK_STATUS_QUEUED,TASK_DESCR_GOT)
                     continue
@@ -157,7 +173,7 @@ class uniTrans(threading.Thread):
                     self.packet.set(TASK_STATUS_PROGRESS,TASK_DESCR_GOT)
                     continue
                 else:
-                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_STATUS)
+                    self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_STATUS,False)
         elif status==404:
             self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_SERVER)
         elif status==406:
