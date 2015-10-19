@@ -15,7 +15,7 @@ SERVER_HOST             =   'denethor.cdsdom.polito.it'
 SECS_STARTENGINE        =   15
 ##--------------------------  Parameters for engine  ------------------------------##
 MAX_NUMBER_OF_ENGINES   =   3
-ENGINE_PORT             =   9080
+ENGINE_PORT             =   40801
 ENGINE_PORTS            =   9087
 ENGINE_PORT_STEP        =   2
 ENGINE_DIRECTORY        =   "E:\\Program Files\\Nuance\\Transcription Engine\\"

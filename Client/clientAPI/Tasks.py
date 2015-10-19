@@ -12,17 +12,18 @@ __description__='''
 '''
 #========================================#
 #! python
+import http
 import json
 import os
 import subprocess
 import threading
 import time
-import http
 
 from Client.clientAPI.clientConst import *  # @UnusedWildImport
+from Client.clientAPI.package import package
+
 from Client.clientAPI.htmlFrame import myHTML
 from Client.clientAPI.jsonReadText import readJson
-from Client.clientAPI.package import package
 from commonAPI.netOp import httpPOST, httpGET
 
 
