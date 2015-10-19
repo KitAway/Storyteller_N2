@@ -76,6 +76,8 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
             self.do_HEAD(response.status)
         except AttributeError:
             self.do_HEAD(404)
+        except ConnectionRefusedError:
+            self.do_HEAD()
 
 
     def do_GET(self):
@@ -95,6 +97,8 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
         except AttributeError:
             self.do_HEAD(404)
         except TimeoutError:
+            self.do_HEAD(404)
+        except ConnectionRefusedError:
             self.do_HEAD(404)
 
 
