@@ -5,11 +5,13 @@ Created on Oct 16, 2015
 '''
 
 
-import uuid
 import os
-from Client.clientAPI.clientConst import (NUM_TAB_PRINT,NUM_SPACE_PRINT,
-            TASK_STATUS_INITIALED,TASK_DESCR_NONE)
 import time
+import uuid
+
+from Client.clientAPI.clientConst import (NUM_TAB_PRINT, NUM_SPACE_PRINT,
+            TASK_STATUS_INITIALED, TASK_DESCR_NONE)
+
 
 class Status():
     def __init__(self,filename):

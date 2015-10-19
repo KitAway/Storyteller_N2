@@ -4,7 +4,9 @@ __description__='''
 
 '''
 import os
-from Client.clientAPI.clientConst import STOP_WORDS_LIST,NUM_OF_KEYWORDS,TITLE_FACTOR
+
+from Client.clientAPI.clientConst import STOP_WORDS_LIST, NUM_OF_KEYWORDS, TITLE_FACTOR
+
 
 #========================================#
 class myHTML():

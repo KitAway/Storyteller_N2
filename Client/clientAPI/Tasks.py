@@ -14,14 +14,16 @@ __description__='''
 #! python
 import json
 import os
-from commonAPI.netOp import httpPOST, httpGET
+import subprocess
 import threading
+import time
+
+from Client.clientAPI.clientConst import *  # @UnusedWildImport
 from Client.clientAPI.htmlFrame import myHTML
 from Client.clientAPI.jsonReadText import readJson
-import time
-from Client.clientAPI.clientConst import *  # @UnusedWildImport
 from Client.clientAPI.package import package
-import subprocess
+from commonAPI.netOp import httpPOST, httpGET
+
 
 class Tasks():
     def __init__(self,server_url,audiopath,updateTime):

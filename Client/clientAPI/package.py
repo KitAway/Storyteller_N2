@@ -5,8 +5,9 @@ Created on Oct 16, 2015
 '''
 
 import os
-from Client.clientAPI.packet import packet
+
 from Client.clientAPI.clientConst import RECOG_AUDIO_FORMAT
+from Client.clientAPI.packet import packet
 
 
 def isValidAudioFiles(one):

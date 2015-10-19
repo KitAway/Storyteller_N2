@@ -13,10 +13,12 @@ __usage__='''usage: %s  [-u sec] file_directory
 __description__='''
 '''
 #========================================#
-from Client.clientAPI.Tasks import Tasks
-from Client.clientAPI.clientConst import (SERVER_PORT,SERVER_HOST, UPDATE_TIME_SECOND)
-import sys
 import os
+import sys
+
+from Client.clientAPI.Tasks import Tasks
+from Client.clientAPI.clientConst import (SERVER_PORT, SERVER_HOST, UPDATE_TIME_SECOND)
+
 
 def main():
     argv=sys.argv[1:]

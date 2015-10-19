@@ -6,11 +6,12 @@ Created on Oct 16, 2015
 #========================================#
 __author__="Liang Ma"
 #========================================#
-import subprocess
 import os
 import shlex
-import uuid
 import shutil
+import subprocess
+import uuid
+
 
 class Engine:
     def __init__(self,dirEngine,port,*,node=r'bin\node.exe', js=r'app.js'):
