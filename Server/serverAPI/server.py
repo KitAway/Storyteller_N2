@@ -34,6 +34,9 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
         auid=self.headers['id']
 #        portBias=int(self.headers['portBias'])
         audioname=self.headers['audioname']
+        language=self.headers['language']
+        operating_mode=self.headers['mode']
+        
         post_data = self.rfile.read(content_length)
     
         audioDir=os.path.join(WORKING_DIRECTORY,str(auid))
@@ -62,8 +65,8 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
         rPort=ENGINE_PORT
         URL_Server='%s:%s'%(ENGINE_HOST_IP,rPort)
         hrs={'Content-type':'application/json'}
-        operating_mode='accurate'
-        model={"name":'en-us'}
+        
+        model={"name":language}
         firstChannel={'url':audiopath,'format':'wave'}
         channels={'firstChannelLabel':firstChannel}
         data={'reference':auid,'operating_mode':operating_mode,
