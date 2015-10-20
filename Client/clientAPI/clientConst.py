@@ -13,7 +13,7 @@ NUMBER_OF_ENGINES       =   1
 ##-------------------------   task parameters  -------------------------------##
 NUM_MULTI_TASKS         =   5
 UPDATE_TIME_SECOND      =   1
-QUERYING_TIME           =   10
+QUERYING_TIME           =   3
 DISPLAY_UPDATE_SECOND   =   3
 
 NUM_OF_KEYWORDS         =   6

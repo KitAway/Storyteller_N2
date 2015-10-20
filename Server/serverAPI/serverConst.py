@@ -19,7 +19,7 @@ ENGINE_PORT             =   40801
 ENGINE_PORTS            =   9087
 ENGINE_PORT_STEP        =   2
 ENGINE_DIRECTORY        =   "E:\\Program Files\\Nuance\\Transcription Engine\\"
-ENGINE_HOST_IP          =   '127.0.0.1'
+ENGINE_HOST_IP          =   'denethor.cdsdom.polito.it'
 
 NUMBER_OF_ENGINES       =   1
 
