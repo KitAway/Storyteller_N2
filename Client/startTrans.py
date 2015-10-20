@@ -6,7 +6,8 @@ Created on Oct 16, 2015
 #! python
 #========================================#
 __author__="Liang Ma"
-__usage__='''usage: %s  [-u sec] file_directory
+__usage__='''usage: %s  [-l lang] [-u sec] file_directory
+    -l lang : specify the language of the file
     -u sec  : fresh time period in the console, sec must be a float number
     -h or --help  : display the help
     '''%__file__
@@ -17,7 +18,7 @@ import os
 import sys
 
 from Client.clientAPI.Tasks import Tasks
-from Client.clientAPI.clientConst import (SERVER_PORT, SERVER_HOST, UPDATE_TIME_SECOND)
+from Client.clientAPI.clientConst import (SERVER_PORT, SERVER_HOST, UPDATE_TIME_SECOND, LANGUAGE_SUPPORT)
 
 
 def main():
@@ -25,14 +26,28 @@ def main():
     argv=sys.argv[1:]
     if ('-h' in argv) or ('--help' in argv):
         print(__usage__)
-        return 0
+        return
 
+    if '-l' in argv:
+        argv.remove('-l')
+        try:
+            lang=argv.pop(0)
+        except IndexError :
+            print('expect the language type')
+            print(__usage__)
+            return
+            if lang not in LANGUAGE_SUPPORT:
+                print(__usage__)
+                return
+    else:
+        lang='en-us'
+        
     if '-u' in argv:
         argv.remove('-u')
         try:
             uTime=float(argv.pop(0))
         except IndexError :
-            print('lack of the update time.')
+            print('expect the update time.')
             print(__usage__)
             return -1
         except  ValueError:
@@ -53,7 +68,7 @@ def main():
 #=================   Start the transcription   ==============#
     server_url=(SERVER_HOST, SERVER_PORT)
 
-    myTask= Tasks(server_url,filepath,uTime)
+    myTask= Tasks(server_url,filepath,lang,uTime)
     myTask.startTrans()
     myTask.display()
     print("finished")

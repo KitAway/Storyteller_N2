@@ -20,7 +20,6 @@ import threading
 import time
 
 from Client.clientAPI.clientConst import *  # @UnusedWildImport
-
 from Client.clientAPI.htmlFrame import myHTML
 from Client.clientAPI.jsonReadText import readJson
 from Client.clientAPI.package import package
@@ -28,8 +27,8 @@ from commonAPI.netOp import httpPOST, httpGET
 
 
 class Tasks():
-    def __init__(self,server_url,audiopath,updateTime):
-        self.package=package(audiopath)
+    def __init__(self,server_url,audiopath,language,updateTime):
+        self.package=package(audiopath,language=language)
         self.server_url="%s:%s"%server_url
         self.status=False
         self.updateTime=updateTime
@@ -96,13 +95,16 @@ class uniTrans(threading.Thread):
     def post(self):
         with open(self.packet.filepath,'rb') as fr:
             data=fr.read()
-        hrs={'id':str(self.packet.id),'audioname':self.packet.filename}
+        hrs={'id':str(self.packet.id),'audioname':self.packet.filename,
+             'language':self.packet.language, 'mode':self.packet.mode}
         try:
             response=httpPOST(self.server_url,data,hrs)
             return response.status
         except http.client.HTTPException:
             self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_CONNECTION,False)
         except http.client.NotConnected:
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_CONNECTION,False)
+        except:
             self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_CONNECTION,False)
 
         
@@ -176,9 +178,11 @@ class uniTrans(threading.Thread):
                 else:
                     self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_STATUS,False)
         elif status==404:
-            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_SERVER)
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_SERVER,False)
         elif status==406:
-            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_FILE)
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_FILE,False)
+        else:
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_GOT,False)
         
 
 if __name__=='__main__':

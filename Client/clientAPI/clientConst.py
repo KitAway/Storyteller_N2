@@ -10,6 +10,7 @@ SERVER_PORTS            =   9998
 SERVER_HOST             =   'denethor.cdsdom.polito.it'
 NUMBER_OF_ENGINES       =   1
 
+LANGUAGE_SUPPORT        =   ['en-us','en-gb','it-it','zh-cn']
 ##-------------------------   task parameters  -------------------------------##
 NUM_MULTI_TASKS         =   5
 UPDATE_TIME_SECOND      =   1
