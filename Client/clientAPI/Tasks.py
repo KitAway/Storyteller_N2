@@ -178,9 +178,9 @@ class uniTrans(threading.Thread):
                 else:
                     self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_STATUS,False)
         elif status==404:
-            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_SERVER)
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_SERVER,False)
         elif status==406:
-            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_FILE)
+            self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_FILE,False)
         else:
             self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_GOT,False)
         
