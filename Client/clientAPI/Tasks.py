@@ -128,7 +128,7 @@ class uniTrans(threading.Thread):
         chann=[x for x in chann if x[1][0]!='!']
         chann=sorted(chann,key=lambda x: float(x[0]))
     
-        myweb=myHTML(chann,self.packet.filename,wLong)
+        myweb=myHTML(chann,self.packet.filename,self.packet.language,wLong)
         with open(self.htmlPath,'w+') as fh:
             fh.write(myweb.getHTML())
         with open(self.jsPath,'w+') as fj:
