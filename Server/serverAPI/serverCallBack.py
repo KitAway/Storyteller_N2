@@ -17,7 +17,7 @@ from commonAPI.netOp import httpPOST, httpGET
 
 
 class CALL_BACK():
-    def __init__(self,url):
+    def __init__(self,url,packetList):
         if type(url) is str:
             ulist=url.split(':')
             self.url=(ulist[0],int(ulist[1]))
@@ -26,9 +26,10 @@ class CALL_BACK():
         else:
             raise TypeError('The data type of ip address or port of a server is not correct.')
         self.server=None
+        self.packetList=packetList
 
     def startServer(self):  
-        self.server = http.server.HTTPServer(self.url, httpHandler)
+        self.server = http.server.HTTPServer(self.url, httpHandler(self.packetList))
         print('Server Call Back starts @%s:%s at time'%self.url,time.asctime())
         try:
             self.server.serve_forever()
@@ -38,6 +39,11 @@ class CALL_BACK():
         
 
 class httpHandler(http.server.BaseHTTPRequestHandler):
+    
+    def __init__(self,packetList):
+        super().__init__(self)
+        self.packetList=packetList
+    
     def do_HEAD(self,content):
         self.send_response(content)
         self.send_header("Content-type", "text/html")

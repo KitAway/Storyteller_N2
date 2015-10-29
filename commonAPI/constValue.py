@@ -13,6 +13,7 @@ LANGUAGE_SUPPORT        =   ['en-us','en-au','en-gb','en-za','it-it','zh-cn']
 
 ##================================Packet status========================#
 
+PAC_ESTABLISH           =   'Packet is established'
 PAC_RECEIVED            =   'Packet is received'
 PAC_FAILED              =   'Packet transcribes failed'
 PAC_SUCCESSED           =   'Packet transcribes successfully'
