@@ -11,7 +11,6 @@ import time
 import sys
 
 from Server.serverAPI.server import Server
-from Server.serverAPI.serverCallBack import CALL_BACK
 from Server.serverAPI.serverConst import *  # @UnusedWildImport
 from commonAPI.constValue import *  # @UnusedWildImport
 from Server.serverAPI.uEngine import Engine
@@ -27,9 +26,7 @@ def main():
             break
     
     s=Server((SERVER_HOST,SERVER_PORT),WORKING_DIRECTORY)
-    sb=CALL_BACK((CALL_BACK_HOST,CALL_BACK_PORT))
     s.startServer()
-    sb.startServer()
 
 if __name__=='__main__':
     main()

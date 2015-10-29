@@ -121,8 +121,8 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
             pak.update(PAC_FAILED)
 
     def do_GET(self):
-        id=self.path[8:]
-        sindex=self.packetList.index(packet(id))
+        sid=self.path[8:]
+        sindex=self.packetList.index(packet(sid))
         self.do_HEAD(200,"'status':%s"%self.packetList[sindex].status)
         if self.packetList[sindex].status==PAC_SUCCESSED:
             self.do_HEAD(200)
