@@ -32,7 +32,29 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         auid=self.headers['id']
 #        portBias=int(self.headers['portBias'])
-        audioname=self.headers['audioname']
+        audioname=self.headers['audioname'].encode().decode('unicode-escape')
+        language=self.headers['language']
+        operating_mode=self.headers['mode']
+        
+
+        rPort=ENGINE_PORT
+        URL_Server='%s:%s'%(ENGINE_HOST_IP,rPort)
+        try:
+            response=httpGET(URL_Server,r'/langpackdetails')
+            jstr=''
+            if response.status==200:
+                jbyte=response.read()
+                jstr=jbyte.decode('utf-8')
+            else:
+                self.do_HEAD(404)
+            jdict=json.loads(jstr)
+        except:
+            self.do_HEAD(404)
+            return
+        if jdict['baseLanguage'].lower()!=language or jdict['modes'][0].lower()!=operating_mode:
+            self.do_HEAD(400)
+            return
+        
         post_data = self.rfile.read(content_length)
     
         audioDir=os.path.join(WORKING_DIRECTORY,str(auid))
@@ -61,8 +83,8 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
         rPort=ENGINE_PORT
         URL_Server='%s:%s'%(ENGINE_HOST_IP,rPort)
         hrs={'Content-type':'application/json'}
-        operating_mode='accurate'
-        model={"name":'en-us'}
+        
+        model={"name":language}
         firstChannel={'url':audiopath,'format':'wave'}
         channels={'firstChannelLabel':firstChannel}
         data={'reference':auid,'operating_mode':operating_mode,
@@ -116,12 +138,12 @@ class Server:
             os.mkdir(self.path)
     def startServer(self):  
         self.server = http.server.HTTPServer(self.url, httpHandler)
-        print('Server start @%s:%s at time'%self.url,time.asctime())
+        print('Server starts @%s:%s at time'%self.url,time.asctime())
         try:
             self.server.serve_forever()
         except KeyboardInterrupt:
             self.server.server_close()
-            print('Server stopped at time',time.asctime())
+            print('Server is stopped at time',time.asctime())
 
 if __name__=="__main__":
     print("start the server")

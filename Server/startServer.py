@@ -8,20 +8,22 @@ __description__='''
 
 
 import time
+import sys
 
 from Server.serverAPI.server import Server
 from Server.serverAPI.serverConst import *
 from Server.serverAPI.uEngine import Engine
 
-
 def main():
     engineList=[]
-    for num in range(NUMBER_OF_ENGINES):
-        engineList.append(Engine(ENGINE_DIRECTORY,
-                             ENGINE_PORT+num*ENGINE_PORT_STEP,
-                             js=r'storyteller_v1.0.js'))
-        engineList[num].startEngine()
-        time.sleep(SECS_STARTENGINE)
+    argv=sys.argv[1:]
+    for lang in argv:
+        if lang in ENGINE_LANGUAGE:
+            engineList.append(Engine(ENGINE_DIRECTORY,
+                             ENGINE_PORT,lang,js=r'storyteller_v1.0.js'))
+            time.sleep(SECS_STARTENGINE)
+            break
+    
     s=Server((SERVER_HOST,SERVER_PORT),WORKING_DIRECTORY)
     s.startServer()
 

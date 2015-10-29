@@ -14,7 +14,7 @@ import uuid
 
 
 class Engine:
-    def __init__(self,dirEngine,port,*,node=r'bin\node.exe', js=r'app.js'):
+    def __init__(self,dirEngine,port,lang,*,node=r'bin\node.exe', js=r'app.js'):
         self.dirEngine=dirEngine
         dirTMP=os.path.join(dirEngine,'tmp')
         self.port=port
@@ -23,7 +23,8 @@ class Engine:
         self.js=js
         self.node=node
         self.engine=None
-        #self.startEngine()
+        self.lang=lang
+        self.startEngine()
     
     def __del__(self):
         try:
@@ -35,6 +36,9 @@ class Engine:
     def startEngine(self):
         cur=os.path.abspath(os.path.curdir)
         os.chdir(self.dirEngine)
+        
+        os.environ['NODE_ENV']=self.lang
+        
         args=[os.path.join(self.dirEngine,self.node),os.path.join(self.dirEngine,self.js)]
         paras=r'-httpPort=%d -engineUUID=%s'%(self.port,str(self.id))
         args+=shlex.split(paras)

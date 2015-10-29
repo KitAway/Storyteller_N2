@@ -4,19 +4,28 @@ __description__='''
 
 '''
 import os
-
-from Client.clientAPI.clientConst import STOP_WORDS_LIST, NUM_OF_KEYWORDS, TITLE_FACTOR
+import json
+from Client.clientAPI.clientConst import (STOP_WORDS_LIST_IT,STOP_WORDS_LIST_EN,
+                                          STOP_WORDS_LIST_ZH, NUM_OF_KEYWORDS,
+                                           TITLE_FACTOR, STOP_WORDS_LIST_EN)
 
 
 #========================================#
 class myHTML():
-    def __init__(self,chann,filename,wLong):
+    def __init__(self,chann,filename,language,wLong):
         self.chann=sorted(chann,key=lambda x: float(x[0]))
         self.name=filename
+        self.lang=language
         self.filename=os.path.splitext(self.name)[0]  
         self.wLong=wLong-1
     def getFreq(self):
-        words=[x[1].lower() for x in self.chann if not x[1].lower() in STOP_WORDS_LIST]
+        if self.lang[0:2]=='zh':
+            stopwordlist=STOP_WORDS_LIST_ZH
+        elif self.lang[0:2]=='it':
+            stopwordlist=STOP_WORDS_LIST_IT
+        else:
+            stopwordlist=STOP_WORDS_LIST_EN
+        words=[x[1].lower() for x in self.chann if not x[1].lower() in stopwordlist]
         words+=self.filename.split()*TITLE_FACTOR
         dictW={}
         for word in words:
@@ -28,8 +37,9 @@ class myHTML():
     def getHTML(self,numKeyword=NUM_OF_KEYWORDS):
         fstr=''
         for key in self.chann:
-            fstr+='<p onclick=changePos(%.2f) style="display:inline">%s</p>'%(float(key[0]),key[1]+' ')
-        
+            fstr+='<p onclick=changePos(%.2f) style="display:inline">%s</p>'\
+            %(float(key[0]),key[1].encode('ascii', 'xmlcharrefreplace').decode()+' ')
+                
         wTup=self.getFreq()
         maxN=wTup[0][1]
         if maxN-1>TITLE_FACTOR:
@@ -43,7 +53,7 @@ class myHTML():
                 keyStr+=words[0]+'; '
             else:
                 break
-          
+        keyStr=keyStr.encode('ascii', 'xmlcharrefreplace').decode()
         return """
 <!DOCTYPE html>
 <html>
@@ -69,7 +79,10 @@ Your browser does not support the audio element.
 <script src="%s"></script>
 </body>
 </html>
-"""%(self.filename,self.filename,self.name,keyStr,fstr,self.name+'.js')
+"""%(self.filename.encode('ascii', 'xmlcharrefreplace').decode(),
+     self.filename.encode('ascii', 'xmlcharrefreplace').decode(),
+     self.name.encode('ascii', 'xmlcharrefreplace').decode(),
+     keyStr,fstr,self.name.encode('ascii', 'xmlcharrefreplace').decode()+'.js')
 
     def getJs(self):
         tStart=[]
@@ -81,10 +94,10 @@ Your browser does not support the audio element.
                 tGroup=self.wLong
                 tStart.append(keys[0])
                 words.append(jstr)
-                jstr=keys[1]
+                jstr=keys[1].encode('ascii', 'xmlcharrefreplace').decode()
             else:
                 tGroup-=1
-                jstr+=' '+keys[1]
+                jstr+=' '+keys[1].encode('ascii', 'xmlcharrefreplace').decode()
         words.pop(0)
         words.append(jstr)    
         timeStr='var sArray=%s ;\n var cArray=%s'%(tStart,words)  
@@ -121,3 +134,24 @@ function changePos(time){
   audio.play()
 }
 '''%timeStr
+
+def main():
+    textPath=r'C:\Users\d038395\Desktop\test\ts.mp3.txt'
+    htmlPath=r'C:\Users\d038395\Desktop\test\ts.mp3.html'
+    jsPath=r'C:\Users\d038395\Desktop\test\ts.mp3.js'
+    filename=r"firenze.mp3"
+    with open(textPath,'r') as fr:
+            strFile=fr.read()
+    fileDict=json.loads(strFile)
+    chann=fileDict['1'].items()
+    chann=[x for x in chann if x[1][0]!='!']
+    chann=sorted(chann,key=lambda x: float(x[0]))
+
+    myweb=myHTML(chann,filename,'it-it',10)
+    with open(htmlPath,'w+') as fh:
+        fh.write(myweb.getHTML())
+    with open(jsPath,'w+') as fj:
+        fj.write(myweb.getJs())  
+
+if __name__=='__main__':
+    main()

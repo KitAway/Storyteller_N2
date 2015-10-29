@@ -23,6 +23,7 @@ ENGINE_HOST_IP          =   'denethor.cdsdom.polito.it'
 
 NUMBER_OF_ENGINES       =   1
 
+ENGINE_LANGUAGE         =   ['en-us','en-au','en-gb','en-za','it-it','zh-cn']
 
 
 if NUMBER_OF_ENGINES>MAX_NUMBER_OF_ENGINES:
