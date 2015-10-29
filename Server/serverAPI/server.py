@@ -25,12 +25,14 @@ from Server.serverAPI.packet import packet, pacStatus
 
 class httpHandler(http.server.BaseHTTPRequestHandler):
     
-    def __init__(self,packetList):
-        self.packetList=packetList
+    packetList=list()
     
-    def do_HEAD(self,content,hrs=''):
-        self.send_response(content)
-        self.send_header("Content-type", "text/html",hrs)
+    def do_HEAD(self,code,hrs=''):
+        self.send_response(code)
+        self.send_header("Content-type", "text/html")
+        if type(hrs) is dict:
+            for key in hrs:
+                self.send_header(key, hrs[key])
         self.end_headers()
 
 
@@ -122,7 +124,7 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         sid=self.path[8:]
         sindex=self.packetList.index(packet(sid))
-        self.do_HEAD(200,"'status':%s"%self.packetList[sindex].status)
+        self.do_HEAD(200,{'status':self.packetList[sindex].status})
         if self.packetList[sindex].status==PAC_SUCCESSED:
             self.do_HEAD(200)
             self.wfile.write(self.packetList[sindex].text)
@@ -130,7 +132,7 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
 class Server:
     def __init__(self,url,path,packetList):
         self.path=path
-        self.packetList=packetList
+        httpHandler.packetList=packetList
         if type(url) is str:
             ulist=url.split(':')
             self.url=(ulist[0],int(ulist[1]))
@@ -142,7 +144,7 @@ class Server:
         if not os.path.exists(self.path):
             os.mkdir(self.path)
     def startServer(self):  
-        self.server = http.server.HTTPServer(self.url, httpHandler(self.packetList))
+        self.server = http.server.HTTPServer(self.url, httpHandler)
         print('Server start @%s:%s at time'%self.url,time.asctime())
         try:
             self.server.serve_forever()

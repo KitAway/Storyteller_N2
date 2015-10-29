@@ -10,6 +10,7 @@ from Server.serverAPI.serverConst import SECS_STATUS,ENGINE_PORT,ENGINE_HOST_IP
 import threading
 import time
 import json
+import os
 
 class packet():
     def __init__(self,Id,filepath='',language='en-us',mode='accurate'):
@@ -23,7 +24,7 @@ class packet():
     def update(self,status):
         self.status=status
 
-    def text(self,text):
+    def Text(self,text):
         self.text=text
         
     def __eq__(self, other):
@@ -35,7 +36,7 @@ class packet():
 
 class pacStatus(threading.Thread):
     def __init__(self,packet):
-        super().__init__(self)
+        super().__init__()
         self.packet=packet
         
     def run(self):
@@ -43,7 +44,7 @@ class pacStatus(threading.Thread):
             time.sleep(SECS_STATUS)
             rPort=ENGINE_PORT
             URL_Server='%s:%s'%(ENGINE_HOST_IP,rPort)
-            response=httpGET(URL_Server,'/status/%s'%self.packet.id)
+            response=httpGET(URL_Server,'/status/%s'%self.packet._id)
             jstr=''
             try:
                 if response.status==200:
@@ -64,7 +65,11 @@ class pacStatus(threading.Thread):
             
             if dict['status']=='TRANSCRIBED':
                 self.packet.update(PAC_SUCCESSED)
-                self.packet.text(getstring)
+                self.packet.Text(getstring)
+                file=os.path.join(self.packet._filepath,self.packet._id)
+                file=os.path.join(file,self.packet._id)
+                with open(file,'w') as fw:
+                    fw.write(jstr)
                 break
             elif dict['status']=='QUEUED':
                 self.packet.update(PAC_QUEUED)
