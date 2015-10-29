@@ -19,6 +19,7 @@ import subprocess
 import threading
 import time
 
+from commonAPI.constValue import *  # @UnusedWildImport
 from Client.clientAPI.clientConst import *  # @UnusedWildImport
 from Client.clientAPI.htmlFrame import myHTML
 from Client.clientAPI.jsonReadText import readJson

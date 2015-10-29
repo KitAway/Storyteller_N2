@@ -1,26 +1,41 @@
 '''
-Created on Oct 16, 2015
+Created on Oct 21, 2015
 
 @author: d038395
 '''
 
-#========================================#
-__author__="Liang Ma"
-__version__='9.0'
-__description__='''
-- audio format conversion software 'ffmpeg'
-'''
-#========================================#
 import http.server
 import json
 import os
 import subprocess
 import time
 
-from Server.serverAPI.serverConst import *  # @UnusedWildImport
+
+from Server.serverAPI.serverConst import * # @UnusedWildImport
 from commonAPI.constValue import * # @UnusedWildImport
 from commonAPI.netOp import httpPOST, httpGET
 
+
+class CALL_BACK():
+    def __init__(self,url):
+        if type(url) is str:
+            ulist=url.split(':')
+            self.url=(ulist[0],int(ulist[1]))
+        elif type(url) is tuple and type(url[1]) is int:
+            self.url=url
+        else:
+            raise TypeError('The data type of ip address or port of a server is not correct.')
+        self.server=None
+
+    def startServer(self):  
+        self.server = http.server.HTTPServer(self.url, httpHandler)
+        print('Server Call Back starts @%s:%s at time'%self.url,time.asctime())
+        try:
+            self.server.serve_forever()
+        except KeyboardInterrupt:
+            self.server.server_close()
+            print('Server Call Back is stopped at time',time.asctime())
+        
 
 class httpHandler(http.server.BaseHTTPRequestHandler):
     def do_HEAD(self,content):
@@ -124,29 +139,6 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
             self.do_HEAD(404)
 
 
-class Server:
-    def __init__(self,url,path):
-        self.path=path
-        if type(url) is str:
-            ulist=url.split(':')
-            self.url=(ulist[0],int(ulist[1]))
-        elif type(url) is tuple and type(url[1]) is int:
-            self.url=url
-        else:
-            raise TypeError('The data type of ip address or port of a server is not correct.')
-        self.server=None
-        if not os.path.exists(self.path):
-            os.mkdir(self.path)
-    def startServer(self):  
-        self.server = http.server.HTTPServer(self.url, httpHandler)
-        print('Server start @%s:%s at time'%self.url,time.asctime())
-        try:
-            self.server.serve_forever()
-        except KeyboardInterrupt:
-            self.server.server_close()
-            print('Server stopped at time',time.asctime())
 
-if __name__=="__main__":
-    print("start the server")
-    self=Server(('127.0.0.1',9999),'.')
-    self.startServer()
+if __name__ == '__main__':
+    pass
