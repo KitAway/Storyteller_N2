@@ -26,7 +26,6 @@ from Server.serverAPI.packet import packet, pacStatus
 class httpHandler(http.server.BaseHTTPRequestHandler):
     
     def __init__(self,packetList):
-        super().__init__(self)
         self.packetList=packetList
     
     def do_HEAD(self,content,hrs=''):

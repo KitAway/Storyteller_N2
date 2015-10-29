@@ -7,7 +7,7 @@ Created on Oct 29, 2015
 from commonAPI.constValue import *
 from commonAPI.netOp import httpGET
 from Server.serverAPI.serverConst import SECS_STATUS,ENGINE_PORT,ENGINE_HOST_IP
-import threading.Thread
+import threading
 import time
 import json
 
