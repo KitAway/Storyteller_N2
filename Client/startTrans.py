@@ -18,7 +18,8 @@ import os
 import sys
 
 from Client.clientAPI.Tasks import Tasks
-from Client.clientAPI.clientConst import (SERVER_PORT, SERVER_HOST, UPDATE_TIME_SECOND, LANGUAGE_SUPPORT)
+from Client.clientAPI.clientConst import UPDATE_TIME_SECOND
+from commonAPI.constValue import (SERVER_PORT, SERVER_HOST, LANGUAGE_SUPPORT)
 
 
 def main():
