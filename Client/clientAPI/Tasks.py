@@ -95,7 +95,8 @@ class uniTrans(threading.Thread):
     def post(self):
         with open(self.packet.filepath,'rb') as fr:
             data=fr.read()
-        hrs={'id':str(self.packet.id),'audioname':self.packet.filename,
+        hrs={'id':str(self.packet.id),
+             'audioname':self.packet.filename.encode('unicode-escape'),
              'language':self.packet.language, 'mode':self.packet.mode}
         try:
             response=httpPOST(self.server_url,data,hrs)
@@ -128,7 +129,7 @@ class uniTrans(threading.Thread):
         chann=[x for x in chann if x[1][0]!='!']
         chann=sorted(chann,key=lambda x: float(x[0]))
     
-        myweb=myHTML(chann,self.packet.filename,wLong)
+        myweb=myHTML(chann,self.packet.filename,self.packet.language,wLong)
         with open(self.htmlPath,'w+') as fh:
             fh.write(myweb.getHTML())
         with open(self.jsPath,'w+') as fj:
