@@ -79,7 +79,10 @@ Your browser does not support the audio element.
 <script src="%s"></script>
 </body>
 </html>
-"""%(self.filename,self.filename,self.name,keyStr,fstr,self.name+'.js')
+"""%(self.filename.encode('ascii', 'xmlcharrefreplace').decode(),
+     self.filename.encode('ascii', 'xmlcharrefreplace').decode(),
+     self.name.encode('ascii', 'xmlcharrefreplace').decode(),
+     keyStr,fstr,self.name.encode('ascii', 'xmlcharrefreplace').decode()+'.js')
 
     def getJs(self):
         tStart=[]
@@ -133,10 +136,10 @@ function changePos(time){
 '''%timeStr
 
 def main():
-    textPath=r'C:\Users\d038395\Desktop\test\firenze.mp3.txt'
-    htmlPath=r'C:\Users\d038395\Desktop\test\firenze.mp3.html'
-    jsPath=r'C:\Users\d038395\Desktop\test\firenze.mp3.js'
-    filename='firenze.mp3'
+    textPath=r'C:\Users\d038395\Desktop\test\ts.mp3.txt'
+    htmlPath=r'C:\Users\d038395\Desktop\test\ts.mp3.html'
+    jsPath=r'C:\Users\d038395\Desktop\test\ts.mp3.js'
+    filename=r"firenze.mp3"
     with open(textPath,'r') as fr:
             strFile=fr.read()
     fileDict=json.loads(strFile)

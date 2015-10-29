@@ -95,7 +95,8 @@ class uniTrans(threading.Thread):
     def post(self):
         with open(self.packet.filepath,'rb') as fr:
             data=fr.read()
-        hrs={'id':str(self.packet.id),'audioname':self.packet.filename,
+        hrs={'id':str(self.packet.id),
+             'audioname':self.packet.filename.encode('unicode-escape'),
              'language':self.packet.language, 'mode':self.packet.mode}
         try:
             response=httpPOST(self.server_url,data,hrs)

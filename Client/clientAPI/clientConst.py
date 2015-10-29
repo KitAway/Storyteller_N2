@@ -45,7 +45,7 @@ TASK_DESCR_EXCEPTION    =   'Exception happend.'
 TASK_DESCR_UNICODE      =   'Unicode Encode Error.'
 ##-----------------------------   stop words list  ---------------------------##
 
-STOP_WORDS_LIST_ZH=['\u7684','\u4e00','\u4e0d','\u5728','\u4eba','\u6709','\u662f',
+STOP_WORDS_LIST_ZH=['.',',','\u7684','\u4e00','\u4e0d','\u5728','\u4eba','\u6709','\u662f',
                     '\u4e3a','\u4ee5','\u4e8e','\u4e0a','\u4ed6','\u800c','\u540e',
                     '\u4e4b','\u6765','\u53ca','\u4e86','\u56e0','\u4e0b','\u53ef',
                     '\u5230','\u7531','\u8fd9','\u4e0e','\u4e5f','\u6b64','\u4f46',
@@ -62,10 +62,10 @@ STOP_WORDS_LIST_ZH=['\u7684','\u4e00','\u4e0d','\u5728','\u4eba','\u6709','\u662
                     '\u82e5','\u4f7f','\u8c01','\u867d','\u968f','\u540c','\u6240',
                     '\u5979','\u54c7','\u55e1','\u5f80','\u54ea','\u4e9b','\u5411',
                     '\u6cbf','\u54df','\u7528','\u4e8e','\u54b1','\u5219','\u600e',
-                    '\u66fe','\u81f3','\u81f4','\u7740','\u8bf8']
+                    '\u66fe','\u81f3','\u81f4','\u7740','\u8bf8','\u55ef']
 
 
-STOP_WORDS_LIST_IT=['.', 'a','adesso', 'ai', 'al', 'alla', 'allo', 'allora', 'altre', 
+STOP_WORDS_LIST_IT=[',','.', 'a','adesso', 'ai', 'al', 'alla', 'allo', 'allora', 'altre', 
                     'altri', 'altro', 'anche', 'ancora', 'avere', 'aveva', 'avevano', 
                     'ben', 'buono', 'che', 'chi', 'cinque', 'comprare', 'con', 
                     'consecutivi', 'consecutivo', 'cosa', 'cui', 'da', 'del', 
@@ -84,7 +84,7 @@ STOP_WORDS_LIST_IT=['.', 'a','adesso', 'ai', 'al', 'alla', 'allo', 'allora', 'al
                        'tanto', 'te', 'tempo', 'terzo', 'tra', 'tre', 'triplo', 'ultimo',
                         'un', 'una', 'uno', 'va', 'vai', 'voi', 'volte', 'vostro']
 
-STOP_WORDS_LIST_EN=['.','a', 'about', 'above', 'after', 'again', 'against', 'all',
+STOP_WORDS_LIST_EN=[',','.','a', 'about', 'above', 'after', 'again', 'against', 'all',
              'am', 'an', 'and', 'any', 'are', "aren't", 'as', 'at', 'be', 'because', 'been',
              'before', 'being', 'below', 'between', 'both', 'but', 'by', "can't", 'cannot',
              'could', "couldn't", 'did', "didn't", 'do', 'does', "doesn't", 'doing',
