@@ -32,7 +32,7 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         auid=self.headers['id']
 #        portBias=int(self.headers['portBias'])
-        audioname=self.headers['audioname']
+        audioname=self.headers['audioname'].encode().decode('unicode-escape')
         language=self.headers['language']
         operating_mode=self.headers['mode']
         
@@ -138,12 +138,12 @@ class Server:
             os.mkdir(self.path)
     def startServer(self):  
         self.server = http.server.HTTPServer(self.url, httpHandler)
-        print('Server start @%s:%s at time'%self.url,time.asctime())
+        print('Server starts @%s:%s at time'%self.url,time.asctime())
         try:
             self.server.serve_forever()
         except KeyboardInterrupt:
             self.server.server_close()
-            print('Server stopped at time',time.asctime())
+            print('Server is stopped at time',time.asctime())
 
 if __name__=="__main__":
     print("start the server")
