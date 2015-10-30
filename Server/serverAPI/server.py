@@ -17,10 +17,10 @@ import os
 import subprocess
 import time
 
-from Server.serverAPI.serverConst import *  # @UnusedWildImport
-from commonAPI.constValue import * # @UnusedWildImport
-from commonAPI.netOp import httpPOST, httpGET
 from Server.serverAPI.packet import packet, pacStatus
+from Server.serverAPI.serverConst import *  # @UnusedWildImport
+from commonAPI.constValue import *  # @UnusedWildImport
+from commonAPI.netOp import httpPOST, httpGET
 
 
 class httpHandler(http.server.BaseHTTPRequestHandler):
