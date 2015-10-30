@@ -3,9 +3,10 @@ __author__="Liang Ma"
 __description__='''
 
 '''
-import os
 import json
-from Client.clientAPI.clientConst import (STOP_WORDS_LIST_IT,STOP_WORDS_LIST_EN,
+import os
+
+from Client.clientAPI.clientConst import (STOP_WORDS_LIST_IT, STOP_WORDS_LIST_EN,
                                           STOP_WORDS_LIST_ZH, NUM_OF_KEYWORDS,
                                            TITLE_FACTOR, STOP_WORDS_LIST_EN)
 
@@ -136,10 +137,10 @@ function changePos(time){
 '''%timeStr
 
 def main():
-    textPath=r'C:\Users\d038395\Desktop\test\ts.mp3.txt'
-    htmlPath=r'C:\Users\d038395\Desktop\test\ts.mp3.html'
-    jsPath=r'C:\Users\d038395\Desktop\test\ts.mp3.js'
-    filename=r"firenze.mp3"
+    textPath=r'C:\Users\d038395\Desktop\italian_cities\Roma.mp3.result\Roma.mp3.txt'
+    htmlPath=r'C:\Users\d038395\Desktop\italian_cities\Roma.mp3.result\Roma.mp3.html'
+    jsPath=r'C:\Users\d038395\Desktop\italian_cities\Roma.mp3.result\Roma.mp3.js'
+    filename=r"Roma.mp3"
     with open(textPath,'r') as fr:
             strFile=fr.read()
     fileDict=json.loads(strFile)

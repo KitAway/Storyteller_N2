@@ -16,9 +16,10 @@ __description__='''
 #========================================#
 import os
 import sys
-
+import time
 from Client.clientAPI.Tasks import Tasks
-from Client.clientAPI.clientConst import (SERVER_PORT, SERVER_HOST, UPDATE_TIME_SECOND, LANGUAGE_SUPPORT)
+from Client.clientAPI.clientConst import UPDATE_TIME_SECOND
+from commonAPI.constValue import (SERVER_PORT, SERVER_HOST, LANGUAGE_SUPPORT)
 
 
 def main():
@@ -71,7 +72,6 @@ def main():
     myTask= Tasks(server_url,filepath,lang,uTime)
     myTask.startTrans()
     myTask.display()
-    print("finished")
 
 if __name__ == '__main__':
     main()

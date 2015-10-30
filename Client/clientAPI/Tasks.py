@@ -18,11 +18,13 @@ import os
 import subprocess
 import threading
 import time
+import re
 
 from Client.clientAPI.clientConst import *  # @UnusedWildImport
 from Client.clientAPI.htmlFrame import myHTML
 from Client.clientAPI.jsonReadText import readJson
 from Client.clientAPI.package import package
+from commonAPI.constValue import *  # @UnusedWildImport
 from commonAPI.netOp import httpPOST, httpGET
 
 
@@ -114,7 +116,9 @@ class uniTrans(threading.Thread):
             hrs={}
             response= httpGET(self.server_url,'/status/%s'%self.packet.id,hrs)
             if response.status==200:
-                return response.read().decode('utf-8')
+                status=response.getheader('status')
+                text=response.read().decode('utf-8')
+                return [status,text]
         except http.client.HTTPException:
             self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
         except http.client.NotConnected:
@@ -145,21 +149,30 @@ class uniTrans(threading.Thread):
             while True:
                 time.sleep(QUERYING_TIME)
                 try:
-                    jsonText=self.get()
-                    dict=json.loads(jsonText)  # @ReservedAssignment
+                    statusList=self.get()
+                    status=statusList[0]
                 except ValueError:
                     self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
                     return
                 except TypeError:
                     self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
                     return
-                if dict['status']=='TRANSCRIBED':
-                    self.packet.set(TASK_STATUS_FINISHED,TASK_DESCR_GOT,False)
+                if status==PAC_SUCCESSED:
+                    Text=statusList[1]
+                    try:
+                        matObj=re.search(r'{"status":"TRANSCRIBED"',Text)
+                        index=matObj.span()[0]
+                        jsonText=Text[index:]
+                        dict=json.loads(jsonText)# @ReservedAssignment
+                    except ValueError:
+                        self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS,False)
+                        return
                     try:
                         with open(self.jsonPath,'w+') as fd:
                             fd.write(json.dumps(dict, sort_keys=True,indent=4, separators=(',', ': ')))
                         if readJson(self.jsonPath,self.textPath):
                             self.creatHtml()
+                            self.packet.set(TASK_STATUS_FINISHED,TASK_DESCR_GOT,False)
                             return
                     except:
                         self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS,False)
@@ -167,13 +180,14 @@ class uniTrans(threading.Thread):
                     else:
                         self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS,False)
                         return
-                elif dict['status']=='FAILED':
+                elif status==PAC_FAILED:
                     self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_GOT,False)
                     return
-                elif dict['status']=='QUEUED':
+                elif status==PAC_QUEUED or status==PAC_ESTABLISH or status==PAC_RECEIVED\
+                        or status==PAC_SUBMIT:
                     self.packet.set(TASK_STATUS_QUEUED,TASK_DESCR_GOT)
                     continue
-                elif dict['status']=='TRANSCRIBING':
+                elif status==PAC_PROCESS:
                     self.packet.set(TASK_STATUS_PROGRESS,TASK_DESCR_GOT)
                     continue
                 else:
