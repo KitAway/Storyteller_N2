@@ -50,8 +50,8 @@ class pacStatus(threading.Thread):
             jstr=''
             try:
                 if response.status==200:
-                    getstring=response.read()
-                    jstr=getstring.decode('utf-8')
+                    getBytes=response.read()
+                    jstr=getBytes.decode('utf-8')
                     dict=json.loads(jstr)
                 else:
                     self.packet.update(PAC_FAILED)
@@ -66,12 +66,12 @@ class pacStatus(threading.Thread):
                 print(e)
             
             if dict['status']=='TRANSCRIBED':
-                self.packet.update(PAC_SUCCESSED)
-                self.packet.Text(getstring)
+                self.packet.Text(jstr)
                 file=os.path.join(self.packet._filepath,self.packet._id)
                 file=os.path.join(file,self.packet._id)
-                with open(file,'w') as fw:
+                with open(file,'w+') as fw:
                     fw.write(jstr)
+                self.packet.update(PAC_SUCCESSED)
                 break
             elif dict['status']=='QUEUED':
                 self.packet.update(PAC_QUEUED)

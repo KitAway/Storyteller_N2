@@ -127,7 +127,7 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
         self.do_HEAD(200,{'status':self.packetList[sindex].status})
         if self.packetList[sindex].status==PAC_SUCCESSED:
             self.do_HEAD(200)
-            self.wfile.write(self.packetList[sindex].text)
+            self.wfile.write(self.packetList[sindex].text.encode())
 
 class Server:
     def __init__(self,url,path,packetList):
