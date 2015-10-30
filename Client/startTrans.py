@@ -17,6 +17,10 @@ __description__='''
 import os
 import sys
 import time
+
+ProjectPath=os.path.pardir
+sys.path.append(ProjectPath)
+
 from Client.clientAPI.Tasks import Tasks
 from Client.clientAPI.clientConst import UPDATE_TIME_SECOND
 from commonAPI.constValue import (SERVER_PORT, SERVER_HOST, LANGUAGE_SUPPORT)
