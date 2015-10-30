@@ -4,13 +4,15 @@ Created on Oct 29, 2015
 @author: d038395
 '''
 
-from commonAPI.constValue import *
-from commonAPI.netOp import httpGET
-from Server.serverAPI.serverConst import SECS_STATUS,ENGINE_PORT,ENGINE_HOST_IP
-import threading
-import time
 import json
 import os
+import threading
+import time
+
+from Server.serverAPI.serverConst import SECS_STATUS, ENGINE_PORT, ENGINE_HOST_IP
+from commonAPI.constValue import *
+from commonAPI.netOp import httpGET
+
 
 class packet():
     def __init__(self,Id,filepath='',language='en-us',mode='accurate'):

@@ -17,10 +17,10 @@ import os
 import subprocess
 import time
 
-from Server.serverAPI.serverConst import *  # @UnusedWildImport
-from commonAPI.constValue import * # @UnusedWildImport
-from commonAPI.netOp import httpPOST, httpGET
 from Server.serverAPI.packet import packet, pacStatus
+from Server.serverAPI.serverConst import *  # @UnusedWildImport
+from commonAPI.constValue import *  # @UnusedWildImport
+from commonAPI.netOp import httpPOST, httpGET
 
 
 class httpHandler(http.server.BaseHTTPRequestHandler):
@@ -123,11 +123,16 @@ class httpHandler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self):
         sid=self.path[8:]
-        sindex=self.packetList.index(packet(sid))
+        try:
+            sindex=self.packetList.index(packet(sid))
+        except ValueError:
+            self.do_HEAD(404)
+            return
         self.do_HEAD(200,{'status':self.packetList[sindex].status})
         if self.packetList[sindex].status==PAC_SUCCESSED:
             self.do_HEAD(200)
             self.wfile.write(self.packetList[sindex].text.encode())
+            self.packetList.remove(self.packetList[sindex])
 
 class Server:
     def __init__(self,url,path,packetList):
