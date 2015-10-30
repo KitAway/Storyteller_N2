@@ -18,12 +18,13 @@ import os
 import subprocess
 import threading
 import time
+import re
 
-from commonAPI.constValue import *  # @UnusedWildImport
 from Client.clientAPI.clientConst import *  # @UnusedWildImport
 from Client.clientAPI.htmlFrame import myHTML
 from Client.clientAPI.jsonReadText import readJson
 from Client.clientAPI.package import package
+from commonAPI.constValue import *  # @UnusedWildImport
 from commonAPI.netOp import httpPOST, httpGET
 
 
@@ -116,7 +117,8 @@ class uniTrans(threading.Thread):
             response= httpGET(self.server_url,'/status/%s'%self.packet.id,hrs)
             if response.status==200:
                 status=response.getheader('status')
-                return [status,response.read().decode('utf-8')]
+                text=response.read().decode('utf-8')
+                return [status,text]
         except http.client.HTTPException:
             self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
         except http.client.NotConnected:
@@ -156,17 +158,21 @@ class uniTrans(threading.Thread):
                     self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_MISS,False)
                     return
                 if status==PAC_SUCCESSED:
-                    jsonText=statusList[1]
+                    Text=statusList[1]
                     try:
+                        matObj=re.search(r'{"status":"TRANSCRIBED"',Text)
+                        index=matObj.span()[0]
+                        jsonText=Text[index:]
                         dict=json.loads(jsonText)# @ReservedAssignment
                     except ValueError:
-                        self.packet.set(TASK_STATUS_FINISHED,TASK_DESCR_GOT,False)
+                        self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS,False)
                         return
                     try:
                         with open(self.jsonPath,'w+') as fd:
                             fd.write(json.dumps(dict, sort_keys=True,indent=4, separators=(',', ': ')))
                         if readJson(self.jsonPath,self.textPath):
                             self.creatHtml()
+                            self.packet.set(TASK_STATUS_FINISHED,TASK_DESCR_GOT,False)
                             return
                     except:
                         self.packet.set(TASK_STATUS_FAILED,TASK_DESCR_ANALYSIS,False)
