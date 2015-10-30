@@ -9,6 +9,11 @@ __description__='''
 
 import sys
 import time
+import os
+
+ProjectPath=os.path.pardir
+sys.path.append(ProjectPath)
+
 
 from Server.serverAPI.server import Server
 from Server.serverAPI.serverConst import *  # @UnusedWildImport
