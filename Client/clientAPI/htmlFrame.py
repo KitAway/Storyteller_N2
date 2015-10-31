@@ -27,7 +27,7 @@ class myHTML():
         else:
             stopwordlist=STOP_WORDS_LIST_EN
         words=[x[1].lower() for x in self.chann if not x[1].lower() in stopwordlist]
-        words+=self.filename.split()*TITLE_FACTOR
+        words+=[x for x in self.filename.lower().split() if not x in stopwordlist]*TITLE_FACTOR
         dictW={}
         for word in words:
             if not word in dictW:
