@@ -12,10 +12,7 @@ WORKING_DIRECTORY       =   "E:\\STORYTELLER_TMP"
 #SERVER_PORTS            =   9998
 #SERVER_HOST             =   'denethor.cdsdom.polito.it'
 SECS_STARTENGINE            =   15
-SECS_STATUS                 =   10
-CALL_BACK_PORT              =   19999
-CALL_BACK_PORTS             =   19998
-CALL_BACK_HOST              =   'denethor.cdsdom.polito.it'
+SECS_STATUS                 =   30
 
 ##--------------------------  Parameters for engine  ------------------------------##
 MAX_NUMBER_OF_ENGINES   =   3
