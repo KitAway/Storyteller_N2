@@ -42,11 +42,16 @@ class pacStatus(threading.Thread):
         self.packet=packet
         
     def run(self):
-        while(True):
+        loop=False
+        while(not loop):
             time.sleep(SECS_STATUS)
             rPort=ENGINE_PORT
             URL_Server='%s:%s'%(ENGINE_HOST_IP,rPort)
-            response=httpGET(URL_Server,'/status/%s'%self.packet._id)
+            try:
+                response=httpGET(URL_Server,'/status/%s'%self.packet._id)
+            except Exception as e:
+                self.packet.update(PAC_FAILED)
+                print(e)
             jstr=''
             try:
                 if response.status==200:
@@ -72,14 +77,14 @@ class pacStatus(threading.Thread):
                 with open(file,'w+') as fw:
                     fw.write(jstr)
                 self.packet.update(PAC_SUCCESSED)
-                break
             elif dict['status']=='QUEUED':
                 self.packet.update(PAC_QUEUED)
             elif dict['status']=='TRANSCRIBING':
                 self.packet.update(PAC_PROCESS)
             else:
                 self.packet.update(PAC_FAILED)
-                break
+            
+            loop = (self.packet.status==PAC_FAILED or self.packet.status==PAC_SUCCESSED)
     
 if __name__ == '__main__':
     pass
