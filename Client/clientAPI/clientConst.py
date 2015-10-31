@@ -68,11 +68,12 @@ STOP_WORDS_LIST_ZH=['.',',','\u7684','\u4e00','\u4e0d','\u5728','\u4eba','\u6709
 STOP_WORDS_LIST_IT=[',','.', 'a','adesso', 'ai', 'al', 'alla', 'allo', 'allora', 'altre', 
                     'altri', 'altro', 'anche', 'ancora', 'avere', 'aveva', 'avevano', 
                     'ben', 'buono', 'che', 'chi', 'cinque', 'comprare', 'con', 
-                    'consecutivi', 'consecutivo', 'cosa', 'cui', 'da', 'del', 
+                    'consecutivi', 'consecutivo', 'cosa', 'cui', 'da', 'dal','dai', 'dalla'
+                    'dalle','del', 'dei', 
                     'della', 'dello', 'dentro', 'deve', 'devo', 'di', 'doppio', 
                     'due', 'e','\u00e8', 'ecco', 'fare', 'fine', 'fino', 'fra', 'gente', 
                     'giu', 'ha', 'hai', 'hanno', 'ho', 'il', 'indietro', 'invece', 
-                    'io', 'la', 'lavoro', 'le', 'lei', 'lo', 'loro', 'lui', 'lungo',
+                    'io', 'la', 'lavoro', 'le', 'lei', "l'",'lo', 'loro', 'lui', 'lungo',
                      'ma', 'me', 'meglio', 'molta', 'molti', 'molto', 'nei', 'nella', 
                      'no', 'noi', 'nome', 'nostro', 'nove', 'nuovi', 'nuovo', 'o',
                       'oltre', 'ora', 'otto', 'peggio', 'pero', 'persone', 'piu', 
@@ -82,7 +83,7 @@ STOP_WORDS_LIST_IT=[',','.', 'a','adesso', 'ai', 'al', 'alla', 'allo', 'allora',
                       'siamo', 'siete', 'solo', 'sono', 'sopra', 'soprattutto', 'sotto',
                        'stati', 'stato', 'stesso', 'su', 'subito', 'sul', 'sulla', 
                        'tanto', 'te', 'tempo', 'terzo', 'tra', 'tre', 'triplo', 'ultimo',
-                        'un', 'una', 'uno', 'va', 'vai', 'voi', 'volte', 'vostro']
+                    "un'",'un', 'una', 'uno', 'va', 'vai', 'voi', 'volte', 'vostro']
 
 STOP_WORDS_LIST_EN=[',','.','a', 'about', 'above', 'after', 'again', 'against', 'all',
              'am', 'an', 'and', 'any', 'are', "aren't", 'as', 'at', 'be', 'because', 'been',
