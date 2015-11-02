@@ -137,10 +137,10 @@ function changePos(time){
 '''%timeStr
 
 def main():
-    textPath=r'C:\Users\d038395\Desktop\italian_cities\Roma.mp3.result\Roma.mp3.txt'
-    htmlPath=r'C:\Users\d038395\Desktop\italian_cities\Roma.mp3.result\Roma.mp3.html'
-    jsPath=r'C:\Users\d038395\Desktop\italian_cities\Roma.mp3.result\Roma.mp3.js'
-    filename=r"Roma.mp3"
+    textPath=r'E:\demo_1101\part3.wav.result\part3.wav.txt'
+    htmlPath=r'E:\demo_1101\part3.wav.result\part3.wav.html'
+    jsPath=r'E:\demo_1101\part3.wav.result\part3.wav.js'
+    filename=r"part3.wav"
     with open(textPath,'r') as fr:
             strFile=fr.read()
     fileDict=json.loads(strFile)
